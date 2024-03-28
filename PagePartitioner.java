@@ -3,6 +3,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 
@@ -25,7 +26,7 @@ public class PagePartitioner {
                     int startIndex=batch * batchSize;
                     int endIndex=(batch == totalBatches) ? lines.size() : (batch + 1) * batchSize;
                     return String.join("",lines.subList(startIndex,endIndex));
-                }).toList();
+                }).collect(Collectors.toList());
 
         return parts;
 
@@ -38,7 +39,7 @@ public class PagePartitioner {
         try(BufferedReader br = new BufferedReader(new FileReader(fileName))) {
 
             while (br.ready()) {
-                List<String> a=br.lines().toList();
+                List<String> a=br.lines().collect(Collectors.toList());
                 pages = partitionBySize(a, linesPerPage);
             }
 
